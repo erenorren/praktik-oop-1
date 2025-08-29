@@ -1,4 +1,4 @@
-name: 🚀 Deploy ke Hugging Face
+name: Deploy to Hugging Face
 
 on:
   push:
@@ -8,15 +8,16 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: 🔎 Checkout kode (non-shallow)
+      - name: Checkout code
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # Ambil seluruh history, penting!
+          fetch-depth: 0
 
-      - name: 🔁 Push ke Hugging Face
+      - name: Push to Hugging Face
         run: |
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
 
+          git remote remove hf || true
           git remote add hf https://erenorren:${{ secrets.HF_TOKEN }}@huggingface.co/spaces/erenorren/praktik-oop-1
           git push -f hf main
